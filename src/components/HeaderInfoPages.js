@@ -3,30 +3,24 @@ import styled from "styled-components";
 export default function HeaderInfoPages (){
     return(
         <InfoHeader>
-            <h2>A História do Cais</h2>
-            <h2 color="#439d5e">|</h2>
-            <h2>As pedras pisadas do Cais</h2>
+            <MenuText>A História do Cais</MenuText>
+            <MenuText color="#439d5e">|</MenuText>
+            <MenuText>As pedras pisadas do Cais</MenuText>
         </InfoHeader>
     )
 }
 
 const InfoHeader = styled.div`
     width:100%;
-    height: 75px;
+    height: 45px;
     position: fixed;
     left: 0px;
     top: 75px;
     box-shadow: 0px 4px 4px rgb(0,0,0,0.15);
-    z-index: 1;
+    z-index: 3;
     display:flex;
-    align-items:center
-    img{
-        height: 75px;
-        position: fixed;
-        left: 10px;
-        top: 1px;
-        z-index: 2;
-    }
+    align-items:center;
+    justify-content:center;
 `
 
 const MenuText = styled.h2`

@@ -1,11 +1,12 @@
-import styled from "styled-components"
-import backgvalongo from "../../assets/images/backgval.png"
-import InfoBox from "../../components/InfoBox"
+import styled from "styled-components";
+import backgvalongo from "../../assets/images/backgval.png";
+import InfoBox from "../../components/InfoBox";
+import HeaderInfoPages from "../../components/HeaderInfoPages";
 
 export default function HistoricInfoPage(){
-    return (
-        
+    return (    
         <>
+            <HeaderInfoPages/>
             <BkgImage src={backgvalongo}/>
             <PageTitleWrapper>
                 <TitleColorWrapper>
@@ -22,13 +23,13 @@ const BkgImage = styled.img`
     position:fixed;
     opacity: 0.085;
     right: 0px;
-    top: 0px;
+    top: 20px;
     z-index:0;
 `
 
 const PageTitleWrapper = styled.div`
     width: 100%;
-    margin-top:120px;
+    margin-top:140px;
     height:200px;
     display:flex;
     align-items: center;
