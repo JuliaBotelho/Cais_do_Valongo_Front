@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { 
+  Routes, 
+  BrowserRouter as Router,
+  Route
+} from "react-router-dom";
+import GlobalStyle from "./GlobalStyle";
+import Header from "./components/Header";
+import HistoricInfoPage from "./pages/HistInfoPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import QuizzPage from "./pages/QuizzPage";
+import BookingPage from "./pages/TourBookingPage";
+import ConfirmationPage from "./pages/ConfirmationPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+      <Header/>
+      <ConfirmationPage/>
+    </>
   );
 }
 
