@@ -5,7 +5,7 @@ import HeaderInfoPages from "../../components/HeaderInfoPages";
 
 export default function HistoricInfoPage(){
     return (    
-        <>
+        <PageWrapper>
             <HeaderInfoPages/>
             <BkgImage src={backgvalongo}/>
             <PageTitleWrapper>
@@ -15,9 +15,14 @@ export default function HistoricInfoPage(){
                 <ColorBox/>
             </PageTitleWrapper>
             <InfoBox/>
-        </>
+            <InfoBox/>
+        </PageWrapper>
     )
 }
+
+const PageWrapper = styled.div`
+    z-index:0;
+`
 
 const BkgImage = styled.img`
     position:fixed;
@@ -34,6 +39,7 @@ const PageTitleWrapper = styled.div`
     display:flex;
     align-items: center;
     justify-content: flex-start;
+    z-index:0
 `
 
 const TitleColorWrapper = styled.div`

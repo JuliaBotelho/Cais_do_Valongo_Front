@@ -1,16 +1,63 @@
 import styled from "styled-components";
 import finalimg from "../../assets/images/comemoration.jpeg"
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../contextElements/auth";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function ConfirmationPage (){
+    const[userBooking, setUserBooking] = useState(undefined)
+    const { userData } = useContext(AuthContext);
+    const config = { headers: {"Authorization": `Bearer ${userData.token}`} }
+
+    useEffect(()=>{
+        axios.get("http://localhost:4000/booking/reservation",config)
+        .then(res =>{
+            setUserBooking(res.data)
+        })
+        .catch(err =>{
+            toast('Infelizmente algo deu errado!');
+        })
+    }, [])
+
+    if(!userBooking){
+        return(
+            <ConfPage>
+                <ConfirmationWrapper>              
+                    <h1>Carregando...</h1>
+                </ConfirmationWrapper>
+            </ConfPage>
+        )
+    }
+
+    console.log(userBooking)
+
+    const dateString = userBooking.ExcursionDays.day;
+    const date = new Date(dateString);
+    const days = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const formattedDate = `${days}/${month}`;
+
+    const timeString = userBooking.ExcursionDays.hour;
+    const time = new Date(timeString);
+    const hours = time.getUTCHours().toString().padStart(2, "0");
+    const minutes = time.getUTCMinutes().toString().padStart(2, "0");
+    const formattedTime = `${hours}:${minutes}`;
+    
+
     return(
         <ConfPage>
             <ConfirmationWrapper>
                 <img src={finalimg}/>
                 <h1>Reserva finalizada!</h1>
-                <h2>Estamos muito felizes com sua reserva! Esperamos que aproveite e aprenda muito!</h2>
+                <h2>Estamos muito felizes com sua reserva, {userData.name}! Esperamos que aproveite e aprenda muito!</h2>
                 <h2>O dia e horário da visitação serão:</h2>
-                <h3>22/02 09:00</h3>
-                <h4>O valor X deverá ser pago no próprio dia da visitação ao guia ♡</h4>
+                <h3>{formattedDate} {formattedTime}</h3>
+                <>{userBooking.bookingType==="individual"? (
+                    <h4>O valor de R$35,00 deverá ser pago ao guia no próprio dia da visitação ❤</h4>
+                ):(
+                    <h4>O valor de R$300,00 referente a excursão para {userBooking.studentsNumber} alunos deverá ser pago ao guia no próprio dia da visitação ❤</h4>
+                )}</>
             </ConfirmationWrapper>
         </ConfPage>
     )
@@ -78,3 +125,4 @@ const ConfirmationWrapper = styled.div`
         z-index:1;
     }
 `
+

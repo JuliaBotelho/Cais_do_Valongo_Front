@@ -1,11 +1,16 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export default function HeaderInfoPages (){
     return(
         <InfoHeader>
-            <MenuText>A História do Cais</MenuText>
+            <Link to={"/"}>
+                <MenuText>A História do Cais</MenuText>
+            </Link>
             <MenuText color="#439d5e">|</MenuText>
-            <MenuText>As pedras pisadas do Cais</MenuText>
+            <Link to={"/geoinfo"}>
+                <MenuText>As pedras pisadas do Cais</MenuText>
+            </Link>
         </InfoHeader>
     )
 }
@@ -17,10 +22,13 @@ const InfoHeader = styled.div`
     left: 0px;
     top: 75px;
     box-shadow: 0px 4px 4px rgb(0,0,0,0.15);
-    z-index: 3;
+    z-index: 2;
     display:flex;
     align-items:center;
     justify-content:center;
+    a{
+        text-decoration:none;
+    }
 `
 
 const MenuText = styled.h2`

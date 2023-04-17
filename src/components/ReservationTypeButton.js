@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-export default function ReservationTypeButton ({bkgimg, typetext}){
+export default function ReservationTypeButton ({bkgimg, typetext, setReservationType, rtype}){
     return(
-        <TypeButton >
+        <TypeButton  onClick={()=>setReservationType(rtype)}>
             <img src={bkgimg}/>
             <h3>{typetext}</h3>
         </TypeButton>

@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import logovalongo from "../assets/images/logovalongo.png"
+import logovalongo from "../assets/images/logovalongo.png";
+import { Link } from "react-router-dom";
 
 export default function Header(){
     return(
@@ -11,11 +12,17 @@ export default function Header(){
                 <YellowBlock/>
             </ColorBar>
             <MenuBar>
-                <MenuText>O Cais</MenuText>
+                <Link to={"/"}>
+                    <MenuText>O Cais</MenuText>
+                </Link>
                 <MenuText color="#2F934D">•</MenuText>
-                <MenuText>Quizz</MenuText>
+                <Link to={"/quizz"}>
+                    <MenuText>Quizz</MenuText>
+                </Link>
                 <MenuText color="#DB9D2E">•</MenuText>
-                <MenuText>Agende sua Visita Guiada!</MenuText>
+                <Link to={"/login"}>
+                    <MenuText>Agende sua Visita Guiada!</MenuText>
+                </Link>
             </MenuBar>
         </HeaderLayout>
     )
@@ -28,7 +35,7 @@ const HeaderLayout = styled.div`
     left: 0px;
     top: 0px;
     box-shadow: 0px 4px 4px rgb(0,0,0,0.15);
-    z-index: 1;
+    z-index: 3;
     img{
         height: 75px;
         position: fixed;
@@ -36,13 +43,15 @@ const HeaderLayout = styled.div`
         top: 1px;
         z-index: 3;
     }
+    a{
+        text-decoration:none;
+    }
 `
 
 const ColorBar = styled.div`
     width:100%;
     height: 20px;
     display: flex;
-    z-index: 2;
 `
 
 const GreenBlock = styled.div`

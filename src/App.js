@@ -13,21 +13,26 @@ import RegisterPage from "./pages/RegisterPage";
 import QuizzPage from "./pages/QuizzPage";
 import BookingPage from "./pages/TourBookingPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
+import AuthProvider from "./contextElements/auth";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <BrowserRouter>
+      <ToastContainer/>
       <GlobalStyle />
-      <Header/>
-      <Routes>
-        <Route path="/" element={<HistoricInfoPage/>}/>
-        <Route path="/geoinfo" element={<GeologicInfoPage/>}/>
-        <Route path="/quizz" element={<QuizzPage/>}/>
-        <Route path="/login" element={<LoginPage/>}/>
-        <Route path="/cadastro" element={<RegisterPage/>}/>
-        <Route path="/reserva" element={<BookingPage/>}/>
-        <Route path="/confirmado" element={<ConfirmationPage/>}/>
-      </Routes>
+      <AuthProvider>
+        <Header/>
+        <Routes>
+          <Route path="/" element={<HistoricInfoPage/>}/>
+          <Route path="/geoinfo" element={<GeologicInfoPage/>}/>
+          <Route path="/quizz" element={<QuizzPage/>}/>
+          <Route path="/login" element={<LoginPage/>}/>
+          <Route path="/cadastro" element={<RegisterPage/>}/>
+          <Route path="/reserva" element={<BookingPage/>}/>
+          <Route path="/confirmado" element={<ConfirmationPage/>}/>
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

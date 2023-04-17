@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export default function InfoBox(){
+export default function InfoBox({id}){
     return(//!!!!! Lembrar de alternar por meio de um ternário a renderização: uma vez 1º a imagem e depois o texto e vice-versa
         <InfoBoxWrapper>
             <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"/>
             <InfoBoxText>
-                <h3>ablublu bleble</h3>
+                <h3>Texto informativo</h3>
                 <p>"Tripleto hexadecimal ou web colors é um número de seis dígitos formado por três
                     bytes em hexadecimal. É utilizado em documentos HTML, CSS e em outras aplicações
                     em computação. Os bytes representam as porções das cores vermelho, verde e azul.

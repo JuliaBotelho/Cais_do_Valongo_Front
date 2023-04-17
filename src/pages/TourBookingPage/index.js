@@ -3,62 +3,130 @@ import individualImg from "../../assets/images/individual.png";
 import studentsImg from "../../assets/images/students.png"
 import ReservationTypeButton from "../../components/ReservationTypeButton";
 import ReservationDateButton from "../../components/ResevationDateButtons";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import usePostIndividualBooking from "../../hooks/api/usePostIndividualBooking";
+import usePostSchoolBooking from "../../hooks/api/usePostSchoolBooking";
+import { useNavigate } from "react-router-dom";
+
+import { AuthContext } from "../../contextElements/auth";
 
 export default function BookingPage (){
-    const [reservationTypeI, setReservationTypeI] = useState(false)
-    const[formSchoolReserve, setFormSchoolReserve] = useState({school:"",number:""})
-    let reservationTypes = [{img: individualImg ,text: "Vou para a visita a passeio!"},{img: studentsImg ,text: "Quero levar minha turma!"}]
-    let reservationDays = [{day:"22/02" , hour:"09:00", price:"30,00"}, {day:"22/02" , hour:"09:00", price:"30,00"}, {day:"22/02" , hour:"09:00",price:"30,00"}, {day:"22/02" , hour:"09:00",price:"30,00"}]
+    const[userBooking, setUserBooking] = useState(undefined)
+    const [reservationType, setReservationType] = useState(0)
+    const [reservationDays, setReservationDays] = useState([])
+    const [dateId, setDateId] = useState(0)
+    const[formSchoolReserve, setFormSchoolReserve] = useState({school:"",studentsnumber:""})
+    const { userData } = useContext(AuthContext);
+    const config = { headers: {"Authorization": `Bearer ${userData.token}`} }
 
-    function handleSchoolForm(e){}
+    const navigate = useNavigate();
+
+    const { postIndividualBookingLoading, postIndividualBooking } = usePostIndividualBooking();
+    const { postSchoolBookingLoading, postSchoolBooking } = usePostSchoolBooking();
+
+    let reservationTypes = [{img: individualImg ,text: "Vou para a visita a passeio!", rtype: 1},{img: studentsImg ,text: "Quero levar minha turma!", rtype: 2}]
+
+    if(userBooking){
+        navigate('/confirmado');
+    }
+    
+    useEffect(()=>{
+        axios.get("http://localhost:4000/booking/dates",config)
+        .then(res =>{
+            setReservationDays(res.data)
+        })
+        .catch(err =>{
+            /* toast('Infelizmente algo deu errado!'); */
+        })
+    }, [reservationType])
+
+
+    function handleSchoolForm(e){
+        const{name,value} = e.target
+        setFormSchoolReserve({...formSchoolReserve, [name]:value})
+    }
+    
+    async function individualSubmit(event){
+        event.preventDefault();
+        try{
+            const individualBooking = await postIndividualBooking({dayid:dateId}, config);
+            navigate('/confirmado');
+           /*  toast('Reserva realizada com sucesso!') */
+        } catch(err){
+            console.log(err)
+            toast('Infelizmente não foi possível fazer a Reserva!');
+        }
+    }
+
+    async function schoolSubmit(event){
+        event.preventDefault();
+        const body ={
+            dayid:dateId,
+            school: formSchoolReserve.school,
+            studentsnumber: formSchoolReserve.studentsnumber
+        }
+        try{
+            const schoolBooking = await postSchoolBooking(body, config);
+            navigate('/confirmado');
+            /* toast('Reserva realizada com sucesso!') */
+            navigate('/confirmado');
+        } catch(err){
+            console.log(err)
+            /* toast('Infelizmente não foi possível fazer a Reserva!'); */
+        }
+    }
 
     return(
         <>
-            <BookingPageTitle>Seja bem-vindo //Fulano//! Vamos fazer sua reserva!</BookingPageTitle>
+            <BookingPageTitle>Olá {userData.name}! Vamos fazer sua reserva!</BookingPageTitle>
             <BookingPageWrapper>
                 <ReservationTypeWrapper>
                     <h2>Primeiro defina o tipo de visitação!</h2>
                     <ButtonsWrapper>
-                        <>{reservationTypes.map((type)=><ReservationTypeButton bkgimg={type.img} typetext={type.text}/>)}</>
+                        <>{reservationTypes.map((type)=><ReservationTypeButton bkgimg={type.img} typetext={type.text} setReservationType={setReservationType} rtype={type.rtype} />)}</>
                     </ButtonsWrapper>
                 </ReservationTypeWrapper>
-                <>{reservationTypeI? (
-                    <FinalReservationWrapper>
-                        <h2>Agora vamos definir a data e horário de sua visita!</h2>
-                        <ButtonsWrapper>
-                          <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} price={date.price}/>)}</>
-                        </ButtonsWrapper>
-                        <button>Confirmar Reserva!</button>
-                    </FinalReservationWrapper>
-                ):(
-                    <FinalReservationWrapper>
-                        <h2>Que legal! Agora escolha data e horário de sua visita e por favor informe a instituição de ensino e o número de alunos!</h2>
-                        <ButtonsWrapper>
-                          <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} price={date.price}/>)}</>
-                        </ButtonsWrapper>
-                        <InputWrapper>
-                            <input
-                                name="school"
-                                type="name"
-                                value={formSchoolReserve.school}
-                                onChange={handleSchoolForm}
-                                placeholder="Instiuição de ensino"
-                                required
-                            />
-                            <input
-                                name="number"
-                                type="number"
-                                value={formSchoolReserve.number}
-                                onChange={handleSchoolForm}
-                                placeholder="Número de alunos participantes"
-                                required
-                            />
-                        </InputWrapper>
-                        <button>Confirmar Reserva!</button>
-                    </FinalReservationWrapper>
-                )}</>
-                
+                <>{reservationType===0?(<></>):(
+                    <>
+                    {reservationType===1? (
+                        <FinalReservationWrapper onSubmit={individualSubmit}>
+                            <h2>Agora vamos definir a data e horário de sua visita!</h2>
+                            <ButtonsWrapper>
+                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setDateId={setDateId} available={date.available}/>)}</>
+                            </ButtonsWrapper>
+                            <button type="submit">Confirmar Reserva!</button>
+                        </FinalReservationWrapper>
+                    ):(
+                        <FinalReservationWrapper onSubmit={schoolSubmit}>
+                            <h2>Que legal! Agora escolha data e horário de sua visita e por favor informe a instituição de ensino e o número de alunos!</h2>
+                            <ButtonsWrapper>
+                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setDateId={setDateId} available={date.available}/>)}</>
+                            </ButtonsWrapper>
+                            <InputWrapper>
+                                <input
+                                    name="school"
+                                    type="name"
+                                    value={formSchoolReserve.school}
+                                    onChange={handleSchoolForm}
+                                    placeholder="Instiuição de ensino"
+                                    required
+                                />
+                                <input
+                                    name="studentsnumber"
+                                    type="number"
+                                    value={formSchoolReserve.studentsnumber}
+                                    onChange={handleSchoolForm}
+                                    placeholder="Número de alunos participantes"
+                                    required
+                                />
+                            </InputWrapper>
+                            <button type="submit">Confirmar Reserva!</button>
+                        </FinalReservationWrapper>
+                    )}
+                    </>
+                )}</>               
             </BookingPageWrapper>
         </>
     )
@@ -126,7 +194,7 @@ const InputWrapper = styled.div`
     }
 `
 
-const FinalReservationWrapper = styled.div`
+const FinalReservationWrapper = styled.form`
     width: 84%;
     min-height:265px;
     border: 3px solid rgba(47,147,77,0.5);

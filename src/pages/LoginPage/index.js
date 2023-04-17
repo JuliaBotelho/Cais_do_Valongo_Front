@@ -1,17 +1,44 @@
-import styled from "styled-components"
-import logtheme from "../../assets/images/loginlogo.png"
-import { useState } from "react"
+import styled from "styled-components";
+import logtheme from "../../assets/images/loginlogo.png";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../contextElements/auth";
+import useSignIn from "../../hooks/api/useSignIn";
+import { toast } from "react-toastify";
+
 
 export default function LoginPage (){
     const[formLogin, setFormLogin] = useState({email:"",password:""})
+    const {setUserData} = useContext(AuthContext);
+    const {loadingSignIn, signIn} = useSignIn();
 
-    function handleFormLogin(e){}
+    const navigate = useNavigate();
+
+    function handleFormLogin(e){
+        const{name,value} = e.target
+        setFormLogin({...formLogin, [name]:value})
+    }
+
+    async function submit(event){
+        event.preventDefault();
+
+        try{
+            const userData = await signIn(formLogin);
+            setUserData(userData);
+            /* toast('Login realizado com sucesso!') */
+            navigate('/reserva');
+        } catch(err){
+            console.log(err)
+            /* toast('Infelizmente não foi possível fazer o Login!'); */
+        }
+    }
+
     return(
-        <>
+        <LoginWrapper>
             <PageTheme>
                 <img src={logtheme}/>
             </PageTheme>
-            <FormLogin>
+            <FormLogin onSubmit={submit}>
                 <input
                     name="email"
                     type="email"
@@ -28,12 +55,20 @@ export default function LoginPage (){
                     placeholder="Senha"
                     required
                 />
-                <button>Entrar</button>
+                <button type="submit">Entrar</button>
             </FormLogin>
-            <RegisterLink>Ainda não está cadastrado? Cadastre-se e faça sua reserva!</RegisterLink>
-        </>
+            <Link to={"/cadastro"}>
+                <RegisterLink>Ainda não está cadastrado? Cadastre-se e faça sua reserva!</RegisterLink>
+            </Link>        
+        </LoginWrapper>
     )
 }
+
+const LoginWrapper = styled.div`
+    a{
+        text-decoration:none;
+    }
+`
 
 const PageTheme = styled.div`
     margin-top: 85px;
@@ -44,7 +79,7 @@ const PageTheme = styled.div`
     }
 `
 
-const FormLogin = styled.div`
+const FormLogin = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;

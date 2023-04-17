@@ -1,18 +1,39 @@
 import styled from "styled-components"
 import logtheme from "../../assets/images/loginlogo.png"
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import useSignUp from "../../hooks/api/useSignUp"
 
 export default function RegisterPage (){
-    const[formRegister, setFormRegister] = useState({email:"",name:"",password:""})
+    const[formRegister, setFormRegister] = useState({email:"",username:"",password:""})
+    const {signUpLoading, signUp} = useSignUp();
 
-    function handleFormRegister (e){}
+    const navigate = useNavigate();
+
+    function handleFormRegister (e){
+        const{name,value} = e.target
+        setFormRegister({...formRegister, [name]:value})
+    }
+
+    async function submit(event){
+        event.preventDefault();
+
+        try{
+            const userData = await signUp(formRegister);
+            /* toast('Login realizado com sucesso!') */
+            navigate('/login');
+        } catch(err){
+            console.log(err)
+            /* toast('Infelizmente não foi possível fazer o Login!'); */
+        }
+    }
 
     return(
-        <>
+        <RegisterWrapper>
             <PageTheme>
-                <img src={logtheme}/>
+                <img src={logtheme} />
             </PageTheme>
-            <FormRegister>
+            <FormRegister onSubmit={submit}>
                 <input
                     name="email"
                     type="email"
@@ -22,7 +43,7 @@ export default function RegisterPage (){
                     required
                 />
                 <input
-                    name="name"
+                    name="username"
                     type="name"
                     value={formRegister.name}
                     onChange={handleFormRegister}
@@ -37,12 +58,20 @@ export default function RegisterPage (){
                     placeholder="Senha"
                     required
                 />
-                <button>Cadastrar</button>
+                <button type="submit">Cadastrar</button>
             </FormRegister>
-            <LoginLink>Já possui Cadastro? Agora é só fazer o Login!</LoginLink>
-        </>
+            <Link to={"/login"}>
+                <LoginLink>Já possui Cadastro? Agora é só fazer o Login!</LoginLink>
+            </Link>
+        </RegisterWrapper>
     )
 }
+
+const RegisterWrapper =styled.div`
+    a{
+        text-decoration:none;
+    }
+`
 
 const PageTheme = styled.div`
     margin-top: 85px;
@@ -53,7 +82,7 @@ const PageTheme = styled.div`
     }
 `
 
-const FormRegister = styled.div`
+const FormRegister = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;
