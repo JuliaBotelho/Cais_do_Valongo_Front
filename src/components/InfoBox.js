@@ -23,7 +23,7 @@ const InfoBoxWrapper = styled.div`
     display:flex;
     align-items: center;
     justify-content: flex-end; //tornar alternável para flex-start de acordo com o indice ser par ou impar
-    z-index:1;
+    z-index:0;
     img{
         height: 330px;
         z-index:1;

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function ReservationDateButton({day, hour, reservationType, dateId, setDateId, available}){
+export default function ReservationDateButton({day, hour, reservationType, dateId, setChosenDateId, chosenDateId ,available, setClickedDateButton, clickedDateButton}){
     const dateString = day;
     const date = new Date(dateString);
     const days = date.getUTCDate().toString().padStart(2, "0");
@@ -13,9 +13,14 @@ export default function ReservationDateButton({day, hour, reservationType, dateI
     const minutes = time.getUTCMinutes().toString().padStart(2, "0");
     const formattedTime = `${hours}:${minutes}`;
 
+    function handleDates(dateId){
+        setChosenDateId(dateId)
+        setClickedDateButton(dateId)
+    }
+
     return(
         <>{available?(
-            <DateButton onClick={() => setDateId(dateId)}>
+            <DateButton onClick={() => handleDates(dateId)} clickedDateButton={clickedDateButton} dateId={dateId}>
                 <h3>{formattedDate}</h3>
                 <h4>{formattedTime}</h4>
                 <>
@@ -42,7 +47,7 @@ const DateButton = styled.div`
     padding: 5px 0px;
     border: 2px solid #DB9D2E;
     border-radius: 5px;
-    background-color: rgba(255, 255, 143, 0.35); 
+    background-color: ${props => props.clickedDateButton === props.dateId ? "rgba(255, 255, 143, 0.65)":"rgba(255, 255, 143, 0.35)"};
     background-size: cover;
     display:flex;
     flex-direction:column;

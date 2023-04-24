@@ -31,6 +31,7 @@ body {
 	background-color:none;
 	background-image: url('./assets/images/backgv.png');
     background-size: 800px 1000px;
+	z-index:0
 }
 ol, ul {
 	list-style: none;

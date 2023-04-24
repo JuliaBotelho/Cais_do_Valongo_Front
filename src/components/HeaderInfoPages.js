@@ -19,10 +19,12 @@ const InfoHeader = styled.div`
     width:100%;
     height: 45px;
     position: fixed;
+    background-color:#ffffff;
+    border-top: 1px solid #bfbfb8;
     left: 0px;
     top: 75px;
     box-shadow: 0px 4px 4px rgb(0,0,0,0.15);
-    z-index: 2;
+    z-index: 999;
     display:flex;
     align-items:center;
     justify-content:center;

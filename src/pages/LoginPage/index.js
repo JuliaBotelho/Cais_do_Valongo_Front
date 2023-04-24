@@ -25,11 +25,11 @@ export default function LoginPage (){
         try{
             const userData = await signIn(formLogin);
             setUserData(userData);
-            /* toast('Login realizado com sucesso!') */
+            toast('Login realizado com sucesso!')
             navigate('/reserva');
         } catch(err){
             console.log(err)
-            /* toast('Infelizmente não foi possível fazer o Login!'); */
+            toast('Infelizmente não foi possível fazer o Login!');
         }
     }
 

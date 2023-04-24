@@ -52,7 +52,7 @@ export default function ConfirmationPage (){
                 <h1>Reserva finalizada!</h1>
                 <h2>Estamos muito felizes com sua reserva, {userData.name}! Esperamos que aproveite e aprenda muito!</h2>
                 <h2>O dia e horário da visitação serão:</h2>
-                <h3>{formattedDate} {formattedTime}</h3>
+                <h3>{formattedDate}  |  {formattedTime}</h3>
                 <>{userBooking.bookingType==="individual"? (
                     <h4>O valor de R$35,00 deverá ser pago ao guia no próprio dia da visitação ❤</h4>
                 ):(
@@ -77,7 +77,7 @@ const ConfirmationWrapper = styled.div`
     border-radius: 8px;
     display:flex;
     flex-direction: column;
-    align-items: flex-start;
+    /* align-items: flex-start; */
     justify-content:center;
     position:relative;
     img{
@@ -104,7 +104,7 @@ const ConfirmationWrapper = styled.div`
         font-size: 22px;
         font-weight:400;
         color: #2c2c2e;
-        margin-bottom:9px;
+        margin-bottom:11px;
         z-index:1;
     }
     h3{
@@ -112,6 +112,7 @@ const ConfirmationWrapper = styled.div`
         font-size: 20px;
         font-weight:400;
         color: #b25f59;
+        text-align:center;
         z-index:1;
         margin-bottom:16px;
         text-align:center;

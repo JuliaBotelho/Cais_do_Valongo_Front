@@ -22,7 +22,7 @@ function App() {
       <ToastContainer/>
       <GlobalStyle />
       <AuthProvider>
-        <Header/>
+      <Header/>
         <Routes>
           <Route path="/" element={<HistoricInfoPage/>}/>
           <Route path="/geoinfo" element={<GeologicInfoPage/>}/>

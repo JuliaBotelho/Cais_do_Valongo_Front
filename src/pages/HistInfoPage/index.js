@@ -2,12 +2,13 @@ import styled from "styled-components";
 import backgvalongo from "../../assets/images/backgval.png";
 import InfoBox from "../../components/InfoBox";
 import HeaderInfoPages from "../../components/HeaderInfoPages";
+import Header from "../../components/Header";
 
 export default function HistoricInfoPage(){
     return (    
-        <PageWrapper>
+        <>
             <HeaderInfoPages/>
-            <BkgImage src={backgvalongo}/>
+            <BkgImage src={backgvalongo}/> 
             <PageTitleWrapper>
                 <TitleColorWrapper>
                     <h1>O Cais do Valongo e sua riqueza histórica</h1>
@@ -16,13 +17,11 @@ export default function HistoricInfoPage(){
             </PageTitleWrapper>
             <InfoBox/>
             <InfoBox/>
-        </PageWrapper>
+        </>
     )
 }
 
-const PageWrapper = styled.div`
-    z-index:0;
-`
+
 
 const BkgImage = styled.img`
     position:fixed;
@@ -39,17 +38,18 @@ const PageTitleWrapper = styled.div`
     display:flex;
     align-items: center;
     justify-content: flex-start;
-    z-index:0
+    z-index:0;
 `
 
 const TitleColorWrapper = styled.div`
     background-color: #153134;
     width:34%;
     height:100%;
-    opacity: 0.8;
+    opacity: 0.9; 
     display:flex;
     padding-left:8px;
     align-items: center;
+    z-index:0;
     h1{
         font-family: 'Syncopate', sans-serif;
         font-size: 38px;
@@ -62,5 +62,6 @@ const ColorBox = styled.div`
     width: 7%;
     height:100%;
     background-color: #DB9D2E;
-    opacity: 0.8;
+    /* opacity: 0.8;
+    z-index:0; */
 `

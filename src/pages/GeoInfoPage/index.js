@@ -2,6 +2,7 @@ import styled from "styled-components";
 import backgvalongo from "../../assets/images/backgval.png";
 import InfoBox from "../../components/InfoBox";
 import HeaderInfoPages from "../../components/HeaderInfoPages";
+import Model3DCanvas from "../../components/Model3DCanvas";
 
 export default function GeologicInfoPage(){
     return (    
@@ -14,6 +15,7 @@ export default function GeologicInfoPage(){
                 </TitleColorWrapper>
                 <ColorBox/>
             </PageTitleWrapper>
+            <Model3DCanvas/>
             <InfoBox/>
         </>
     )
@@ -40,7 +42,7 @@ const TitleColorWrapper = styled.div`
     background-color: #153134;
     width:34%;
     height:100%;
-    opacity: 0.8;
+    opacity: 0.9;
     display:flex;
     padding-left:8px;
     align-items: center;

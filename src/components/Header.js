@@ -32,16 +32,17 @@ const HeaderLayout = styled.div`
     width:100%;
     height: 75px;
     position: fixed;
+    background-color:#ffffff;
+    z-index: 999;
     left: 0px;
     top: 0px;
     box-shadow: 0px 4px 4px rgb(0,0,0,0.15);
-    z-index: 3;
     img{
         height: 75px;
-        position: fixed;
+        position: absolute;
         left: 10px;
         top: 1px;
-        z-index: 3;
+        z-index: 999;
     }
     a{
         text-decoration:none;

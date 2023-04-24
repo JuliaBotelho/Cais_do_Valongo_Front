@@ -16,7 +16,8 @@ export default function BookingPage (){
     const[userBooking, setUserBooking] = useState(undefined)
     const [reservationType, setReservationType] = useState(0)
     const [reservationDays, setReservationDays] = useState([])
-    const [dateId, setDateId] = useState(0)
+    const [chosenDateId, setChosenDateId] = useState(0)
+    const [clickedDateButton, setClickedDateButton] = useState(undefined)
     const[formSchoolReserve, setFormSchoolReserve] = useState({school:"",studentsnumber:""})
     const { userData } = useContext(AuthContext);
     const config = { headers: {"Authorization": `Bearer ${userData.token}`} }
@@ -51,9 +52,9 @@ export default function BookingPage (){
     async function individualSubmit(event){
         event.preventDefault();
         try{
-            const individualBooking = await postIndividualBooking({dayid:dateId}, config);
+            const individualBooking = await postIndividualBooking({dayid:chosenDateId}, config);
             navigate('/confirmado');
-           /*  toast('Reserva realizada com sucesso!') */
+            toast('Reserva realizada com sucesso!') 
         } catch(err){
             console.log(err)
             toast('Infelizmente não foi possível fazer a Reserva!');
@@ -63,18 +64,18 @@ export default function BookingPage (){
     async function schoolSubmit(event){
         event.preventDefault();
         const body ={
-            dayid:dateId,
+            dayid:chosenDateId,
             school: formSchoolReserve.school,
             studentsnumber: formSchoolReserve.studentsnumber
         }
         try{
             const schoolBooking = await postSchoolBooking(body, config);
             navigate('/confirmado');
-            /* toast('Reserva realizada com sucesso!') */
+            toast('Reserva realizada com sucesso!') 
             navigate('/confirmado');
         } catch(err){
             console.log(err)
-            /* toast('Infelizmente não foi possível fazer a Reserva!'); */
+            toast('Infelizmente não foi possível fazer a Reserva!'); 
         }
     }
 
@@ -94,7 +95,7 @@ export default function BookingPage (){
                         <FinalReservationWrapper onSubmit={individualSubmit}>
                             <h2>Agora vamos definir a data e horário de sua visita!</h2>
                             <ButtonsWrapper>
-                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setDateId={setDateId} available={date.available}/>)}</>
+                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setChosenDateId={setChosenDateId} chosenDateId={chosenDateId} available={date.available} setClickedDateButton={setClickedDateButton} clickedDateButton={clickedDateButton}/>)}</>
                             </ButtonsWrapper>
                             <button type="submit">Confirmar Reserva!</button>
                         </FinalReservationWrapper>
@@ -102,7 +103,7 @@ export default function BookingPage (){
                         <FinalReservationWrapper onSubmit={schoolSubmit}>
                             <h2>Que legal! Agora escolha data e horário de sua visita e por favor informe a instituição de ensino e o número de alunos!</h2>
                             <ButtonsWrapper>
-                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setDateId={setDateId} available={date.available}/>)}</>
+                              <>{reservationDays.map((date)=><ReservationDateButton day={date.day} hour={date.hour} reservationType={reservationType} dateId={date.id} setChosenDateId={setChosenDateId} chosenDateId={chosenDateId} available={date.available} setClickedDateButton={setClickedDateButton} clickedDateButton={clickedDateButton}/>)}</>
                             </ButtonsWrapper>
                             <InputWrapper>
                                 <input

@@ -3,6 +3,7 @@ import logtheme from "../../assets/images/loginlogo.png"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import useSignUp from "../../hooks/api/useSignUp"
+import { toast } from "react-toastify";
 
 export default function RegisterPage (){
     const[formRegister, setFormRegister] = useState({email:"",username:"",password:""})
@@ -20,11 +21,11 @@ export default function RegisterPage (){
 
         try{
             const userData = await signUp(formRegister);
-            /* toast('Login realizado com sucesso!') */
+            toast('Seus dados foram registrados com sucesso!') 
             navigate('/login');
         } catch(err){
             console.log(err)
-            /* toast('Infelizmente não foi possível fazer o Login!'); */
+            toast('Infelizmente não foi possível registrar seus dados!');
         }
     }
 
